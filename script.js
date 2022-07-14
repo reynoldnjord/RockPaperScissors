@@ -1,8 +1,9 @@
-const rps = ["rock", "paper", "scissor"];
-let playerSelection = prompt("Make your choice: ");
-playerSelection = playerSelection.toLowerCase();
+let playerSelection;
+let computerSelection;
+let computerScore = 0;
+let playerScore = 0;
 
-function getRandomItem() {
+function computerPlay() {
     const randomIndex = Math.floor(Math.random() * 3);
     switch (randomIndex){
         case 0:
@@ -13,23 +14,41 @@ function getRandomItem() {
             return "scissor";
     }
 }
-const computerSelection = getRandomItem();
 
-function playRound() {
+function playRound(playerSelection, computerSelection) {
+    computerSelection = computerPlay();
+    playerSelection = playerSelection.toLowerCase();
     if ((playerSelection==="rock" && computerSelection==="paper") ||
     (playerSelection==="paper" && computerSelection==="scissor") ||
     (playerSelection==="scissor" && computerSelection==="rock")){
-        return String("You Lose! paper beats rock");
+        alert("You Lose!");
+        computerScore++;
     }
 
     if ((playerSelection==="rock" && computerSelection==="scissor") ||
     (playerSelection==="paper" && computerSelection==="rock") ||
     (playerSelection==="scissor" && computerSelection==="paper")){
-        return String("You Win! rock beats scissor");
+        alert("You Win!");
+        playerScore++
     }
 
     if (playerSelection === computerSelection) {
         return String("It's a tie!");
     }
 }
-alert(playRound());
+
+// creating the UI
+const buttons = document.querySelectorAll('button');
+const score = document.createElement('div');
+const buttonDiv = document.getElementById('but-div');
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let text = button.textContent;
+        playerSelection = text.toLowerCase;
+        playRound(playerSelection, computerSelection);
+        score.innerHTML += "Computer's Score: ${computerScore} <br> Player's Score: ${playerScore}";
+        score.setAttribute('#score');
+        buttonDiv.appendChild(score);
+    })
+})
+
